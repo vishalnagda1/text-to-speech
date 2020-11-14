@@ -1,6 +1,6 @@
 # Text To Speech
 
-Text to speech is a Python program and can be used to read text. Currently the default reading language is English. For other language support you need to configure the code accordingly.
+Text to speech is a Python program and can be used to read text. Currently it has English and Hindi language reading support via CLI arguments. For other language support you need to configure the code accordingly.
 
 ## Requirements
 
@@ -27,6 +27,40 @@ pip install pypiwin32 # Windows only
 ```sh
 python main.py
 ```
+
+#### Command Line Options
+
+1. **-t** or **--text** for cli input of text.
+
+```sh
+python main.py -t "This is input from command line"
+```
+
+2. **-l** or **--language** for cli input of language. Currently it support Hindi and English. Available inputs are **english** and **hindi**.
+
+```sh
+python main.py -t Hello -l english
+```
+
+3. **-a** or **--accent** for cli input of language accent. Only available for english language. Available accents are **indian**, **australian**, **us** and **uk**. For Hindi it is default set to **indian** accent.
+
+```sh
+python main.py -t Hello -l english -a uk
+```
+
+4. **-g** or **--gender** for cli input of voice gender. Available inputs are **male** and **female**. By default it is set to **male**.
+
+```sh
+python main.py -t Hello -l english -a uk -g female
+```
+
+5. **-i** or **--index** to select rank of the reader form the output list. It starts from 0 (Zero). If you don't select any index it will automatically take the first one.
+
+```sh
+python main.py -t Hello -l english -a us -g female -i 1
+```
+
+**NOTE :** _Sometimes there might be chances that the readers are not available for specific gender or language or accent. In that case, it tries to find alternative or else it will read by the default reader which has **English** language, **US** accent and voice gender is **male**._
 
 #### Dependencies
 
