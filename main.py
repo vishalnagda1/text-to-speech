@@ -1,5 +1,7 @@
 import pyttsx3
 import argparse
+import traceback
+import sys
 
 # Initialize parser
 parser = argparse.ArgumentParser()
@@ -38,11 +40,11 @@ if args.accent:
 if args.gender:
     gender = args.gender
 
-
+# filters the languages and accents
 def filter_rule(voice, gender, language, accent, default):
     if default:
-        return voice.gender == gender and voice.languages[0] == (language + '_' + accent)
-    return voice.languages[0] == (language + '_' + accent)
+        return voice.gender in gender and voice.languages[0] == (language + '_' + accent)
+    return voice.languages[0] == (language + '_' + accent) or voice.name in ["default", "Alex"]
 
 
 # Filtering voices based on given critaria
@@ -54,14 +56,11 @@ def filter_voice(voices, gender, language, accent, default=True):
     return filter_voice(voices, gender, language, accent, False)
 
 
-# initialize the reading engine
-reader = pyttsx3.init()
-
-
+# update reader's language, accent and gender
 def update_language(reader, language, accent, gender):
     # Audio Type Selection Criteria
     languages = {"english": "en", "hindi": "hi"}
-    genders = {"male": "VoiceGenderMale", "female": "VoiceGenderFemale"}
+    genders = {"male": ["VoiceGenderMale", "male"], "female": ["VoiceGenderFemale", "female"], "none": ["None"]}
     accents = {"indian": "IN", "us": "US", "australian": "AU", "uk": "GB"}
 
     # getting list of filtered voices based on selection criteria
@@ -93,14 +92,26 @@ def update_language(reader, language, accent, gender):
         print("No reader available.\nAlex is reading for you.")
 
 
-update_language(reader, language, accent, gender)
+try:
+    # initialize the reading engine
+    reader = pyttsx3.init()
+    
+    # updating readers language, accent and gender before reading text.
+    update_language(reader, language, accent, gender)
 
+    # read the given text
+    reader.say(text_to_read)
 
-# read the given text
-reader.say(text_to_read)
+    # Execution of reading process
+    reader.runAndWait()
 
-# Execution of reading process
-reader.runAndWait()
+    # Finish the reading process
+    reader.stop()
 
-# Finish the reading process
-reader.stop()
+except OSError as error:
+    traceback.print_exception(*sys.exc_info())
+    print("There is a chance that some required system lib is missing, install the lib and try again")
+
+except Exception as error:
+    traceback.print_exception(*sys.exc_info())
+    print("Someting went wrong; please report the issue at https://github.com/vishalnagda1/text-to-speech/issues")

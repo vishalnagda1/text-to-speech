@@ -1,3 +1,4 @@
+
 # Text To Speech
 
 Text to speech is a Python program and can be used to read text. Currently it has English and Hindi language reading support via CLI arguments. For other language support you need to configure the code accordingly.
@@ -7,6 +8,7 @@ Text to speech is a Python program and can be used to read text. Currently it ha
 ##### System requirements:
 
 - You must have [Python 3](https://www.python.org) installed in your system.
+- All commands should be run in [Python 3](https://www.python.org) environment.
 
 ##### Prerequisite knowledge:
 
@@ -60,11 +62,25 @@ python main.py -t Hello -l english -a uk -g female
 python main.py -t Hello -l english -a us -g female -i 1
 ```
 
-**NOTE :** _Sometimes there might be chances that the readers are not available for specific gender or language or accent. In that case, it tries to find alternative or else it will read by the default reader which has **English** language, **US** accent and voice gender is **male**._
+**NOTE :** _Sometimes there might be chances that the readers are not available for specific gender or language or accent. In that case, it tries to find alternative or else it will read by the **default** reader which has **English** language, **US** accent and voice gender is **male**._
+
+
+#### Troubleshooting
+
+- **_OSError: libespeak.so.1: cannot open shared object file: No such file or directory_**.
+Install libespeak library in your system. If you're using ubuntu you can do it by ```sudo apt install libespeak1```.
+
+- **_aplay: not found_**
+your system needs alsa utils library. If you're on ubuntu you can do it by ```sudo apt-get install alsa-utils```.
+
+- **_aplay: main:788: audio open error: No such file or directory_** or any other **_aplay_** related error.
+Your system should have **soundcard** on it. You can check this by ```aplay -l```. As a result of this command if you see something like **_aplay: device_list:270: no soundcards found..._** this application will not work for you.
+
 
 #### Dependencies
 
 - [pyttsx3](https://pyttsx3.readthedocs.io/en/latest/)
+
 
 #### Contributing
 
