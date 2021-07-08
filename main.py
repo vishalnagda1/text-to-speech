@@ -43,8 +43,8 @@ if args.gender:
 # filters the languages and accents
 def filter_rule(voice, gender, language, accent, default):
     if default:
-        return voice.gender == gender and voice.languages[0] == (language + '_' + accent)
-    return voice.languages[0] == (language + '_' + accent)
+        return voice.gender in gender and voice.languages[0] == (language + '_' + accent)
+    return voice.languages[0] == (language + '_' + accent) or voice.name in ["default", "Alex"]
 
 
 # Filtering voices based on given critaria
@@ -60,7 +60,7 @@ def filter_voice(voices, gender, language, accent, default=True):
 def update_language(reader, language, accent, gender):
     # Audio Type Selection Criteria
     languages = {"english": "en", "hindi": "hi"}
-    genders = {"male": "VoiceGenderMale", "female": "VoiceGenderFemale"}
+    genders = {"male": ["VoiceGenderMale", "male"], "female": ["VoiceGenderFemale", "female"], "none": ["None"]}
     accents = {"indian": "IN", "us": "US", "australian": "AU", "uk": "GB"}
 
     # getting list of filtered voices based on selection criteria
@@ -95,10 +95,9 @@ def update_language(reader, language, accent, gender):
 try:
     # initialize the reading engine
     reader = pyttsx3.init()
-
+    
     # updating readers language, accent and gender before reading text.
     update_language(reader, language, accent, gender)
-
 
     # read the given text
     reader.say(text_to_read)
