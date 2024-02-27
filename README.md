@@ -17,14 +17,24 @@ Text to speech is a Python program and can be used to read text. Currently it ha
 
 ### Getting Started
 
-1. _Install the required python packages_
+1. _Create virtual environment_
+```sh
+python3 -m venv .text-to-speech
+```
+
+2. _Activate the virtual environment_
+```sh
+. .text-to-speech/bin/activate
+```
+
+3. _Install the required python packages_
 
 ```sh
-pip install pyttsx3
+pip install -r requirements.txt
 pip install pypiwin32 # Windows only
 ```
 
-2. _Run the project_
+4. _Run the project_
 
 ```sh
 python main.py
@@ -69,6 +79,10 @@ python main.py -t Hello -l english -a us -g female -i 1
 
 - **_OSError: libespeak.so.1: cannot open shared object file: No such file or directory_**.
 Install libespeak library in your system. If you're using ubuntu you can do it by ```sudo apt install libespeak1```.
+```shell
+# for Debian based OS
+export LD_LIBRARY_PATH=/path/to/libespeak/directory:$LD_LIBRARY_PATH
+```
 
 - **_aplay: not found_**
 your system needs alsa utils library. If you're on ubuntu you can do it by ```sudo apt-get install alsa-utils```.
